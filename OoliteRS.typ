@@ -1,2 +1,5 @@
 #include "OoliteRSPage1.typ"
 #include "OoliteRSPage2.typ"
+#include "OoliteRSPage3.typ"
+#include "OoliteRSPage4.typ"
+#include "OoliteRSPage5.typ"
