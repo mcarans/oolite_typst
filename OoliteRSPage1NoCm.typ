@@ -1,10 +1,45 @@
-#import "common.typ": *
+// Initialize the dynamic header state with a default value
+#let header-text = state("header-text", "Keyboard Guide")
 
-#header-text.update("Keyboard Guide")
+#set page(
+  paper: "a4",
+  flipped: true,
+  margin: (x: 0.5cm, top: 0.9cm, bottom: 0.5cm),
+  numbering: none,
+  header: context {
+    text(size: 9.7pt, fill: rgb("444444"))[
+      #grid(
+        columns: (1fr, 1fr, 1fr),
+        align(left)[], // Empty left column to balance the right one
+        align(center)[*Oolite Reference Sheet*], // Perfectly centered text
+        align(right)[#text(fill: rgb("666666"), weight: "bold")[#header-text.get()]]
+      )
+    ]
+    v(-0.5em)
+    line(length: 100%, stroke: 0.4pt + rgb("cccccc"))
+    v(-0.3em)
+  }
+)
 
-#show: setup-page.with(header-size: 9.7pt, body-size: 9.6pt)
+#set text(
+  font: ("Libertinus Serif"),  // Use default typst font
+  size: 9.6pt,
+  stretch: 90%,
+  hyphenate: false
+)
 
-#show: apply-table-styles.with(columns: (auto, 1fr, auto, 1fr), align: (center, left, center, left))
+#set par(leading: 0.38em, justify: false)
+
+// Styled header helper for our reference sections
+#let section-header(title, colspan: 4) = table.cell(colspan: colspan, fill: rgb("eeeeee"))[*#title*]
+
+// Global table styling to maximize space and remove heavy borders
+#show table: set table(
+  inset: 2.8pt,
+  stroke: (x, y) => if y == 0 { none } else { (bottom: 0.3pt + rgb("dddddd")) },
+  columns: (auto, 1fr, auto, 1fr),
+  align: (center, left, center, left)
+)
 
 // 3-Column Page Layout Container
 #grid(
@@ -16,7 +51,7 @@
   // ==========================================
   stack(spacing: 0.5em)[
     #table(
-      section-header("Flight Controls", colspan: 4),
+      section-header("Flight Controls"),
       [F1], [Forward (front) view], [V], [External views#super[2];],
       [F2], [Aft (rear) view], [Z], [Cycle IFF Scanner zoom#super[3];],
       [F3], [Port (left) view], [⇫+Z], [Reset IFF Scanner zoom],
@@ -35,7 +70,7 @@
     )
 
     #table(
-      section-header("Combat Controls", colspan: 4),
+      section-header("Combat Controls"),
       [A], [Fire laser], [\+ / \-], [Cycle to next / previous target],
       [T], [Missile target seek], [R], [Activate ID recognition],
       [M], [Fire missile (if locked)], [E], [Activate ECM system],
@@ -44,7 +79,7 @@
     )
 
     #table(
-      section-header("Commodities Market Controls", colspan: 4),
+      section-header("Commodities Market Controls"),
       [F8], [Commodities Market], [F7], [Data on Planet],
       [F8 F8], [Commodity Details], [Home], [Select current system],
       [Enter], [Buy / sell maximum amount], [End], [Select current destination system],
@@ -60,7 +95,7 @@
   // ==========================================
   stack(spacing: 0.5em)[
     #table(
-      section-header("Ship, Systems & Status Controls", colspan: 4),
+      section-header("Ship, Systems & Status Controls"),
       [F1], [Launch the ship], [F2], [Game Menu],
       [F3], [Ship Outfitting#super[‡;]], [F3 F3], [Ships For Sale#super[‡;]],
       [F5], [Commander's Profile], [F5 F5], [Ship's Manifest],
@@ -70,7 +105,7 @@
     )
 
     #table(
-      section-header("Navigation Controls", colspan: 4),
+      section-header("Navigation Controls"),
       [F6 F6], [Galactic Chart], [Arrows], [Move cursor around the charts],
       [F6], [Short Range Chart], [Pg Up], [Zoom chart in],
       [I], [Toggle name/system information view], [Pg Dn], [Zoom chart out],
@@ -80,13 +115,13 @@
     #text(size: 7.5pt)[#underline[*Navigation Chart Note:*] Typing a planet's name while in the Galactic Chart will automatically move the cursor to the world matching the text. When more than one planet matches the text, use shift-arrow keys to move the cursor to the next highlighted world. Use Alt + left / right arrow keys to select the system for which information will be displayed in the F7 system data screen.]
 
     #table(
-      section-header("Ship-Station Interfaces Controls", colspan: 4),
+      section-header("Ship-Station Interfaces Controls"),
       [F4], [List available interfaces #super[‡;]], [↑ / ↓], [Move cursor up / down the list],
       [Enter], [Activate selected interface], [← / →], [Move between pages on list]
     )
 
     #table(
-      section-header("Other Controls -- All Systems", colspan: 4),
+      section-header("Other Controls -- All Systems"),
       [P], [Pause the game], [O], [Turn the HUD off / on while paused],
       [⇫+F], [Toggle the game frame rate display], [\*], [Take a screenshot],
       [⇫+M], [Toggle mouse flight control in full screen mode (roll on x-axis)], [Ctrl+⇫+M], [Toggle mouse flight control in full screen mode (yaw on x-axis)],
@@ -102,7 +137,7 @@
     #table(
       columns: (1fr, 4fr),
       align: (center, left),
-      section-header("Notes"),
+      section-header("Notes", colspan: 2),
       [X X], [Tap this key twice],
       [F2], [Function key],
       [⇫], [Shift key],

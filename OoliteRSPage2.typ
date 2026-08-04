@@ -1,47 +1,10 @@
-// Initialize the dynamic header state with a default value
-#let header-text = state("header-text", "Heads Up Display")
+#import "common.typ": *
 
-#set page(
-  paper: "a4",
-  flipped: true,
-  margin: (x: 0.5cm, top: 0.9cm, bottom: 0.5cm),
-  numbering: none,
-  header: context {
-    text(size: 9.4pt, fill: rgb("444444"))[
-      #grid(
-        columns: (1fr, 1fr, 1fr),
-        align(left)[], // Empty left column to balance the right one
-        align(center)[*Oolite Reference Sheet*], // Perfectly centered text
-        align(right)[#text(fill: rgb("666666"), weight: "bold")[#header-text.get()]]
-      )
-    ]
-    v(-0.5em)
-    line(length: 100%, stroke: 0.4pt + rgb("cccccc"))
-    v(-0.3em)
-  }
-)
+#header-text.update("Heads Up Display")
 
-#set text(
-  font: ("Libertinus Serif"),  // Use default typst font
-  size: 9.3pt,
-  stretch: 90%,
-  hyphenate: false
-)
+#show: setup-page
 
-#set par(leading: 0.38em, justify: false)
-
-// Styled header helper for our reference sections - centered text
-#let section-header(title, colspan: 2) = table.cell(colspan: colspan, fill: rgb("eeeeee"), align: center)[*#title*]
-
-// Configure cell properties globally
-#show table: set table(
-  inset: 2.8pt,
-  stroke: (x, y) => if y == 0 { none } else { (bottom: 0.3pt + rgb("dddddd")) },
-  align: (left, left) // Default columns to left-aligned for content block text
-)
-
-// Clean layout wrapper: automatically ensures tables expand to fill their grid cells entirely
-#show table: it => block(width: 100%, it)
+#show: apply-table-styles
 
 // ==========================================
 // PAGE 2: HEADS UP DISPLAY
@@ -57,13 +20,13 @@
   stack(spacing: 0.5em)[
     #table(
       columns: (1fr, 1fr),
-      section-header("1 Speed", colspan: 2),
+      section-header("1 Speed"),
       table.cell(colspan: 2, align: left)[This is a percentage gauge showing how fast the ship is travelling relative to its maximum speed.]
     )
 
     #table(
       columns: (1fr, 1fr),
-      section-header("2 Roll and Pitch", colspan: 2),
+      section-header("2 Roll and Pitch"),
       table.cell(colspan: 2, align: left)[
         The diamonds show how much the ship is anti/clockwise rolling and climbing/diving relative to its maximum turn rate.
         #v(-0.6em)
@@ -73,37 +36,37 @@
 
     #table(
       columns: (1fr, 1fr),
-      section-header("3 Energy Banks", colspan: 2),
+      section-header("3 Energy Banks"),
       table.cell(colspan: 2, align: left)[The multiple meters of the Energy Banks show how much energy you have available for ship systems. Recharging your shields, firing your lasers or ECM and direct hits to the ship's hull will drain the banks. If completely drained, the collapse of the energy banks destroys the ship. The number and size of energy banks installed is dependent on the model of ship being flown.]
     )
 
     #table(
       columns: (1fr, 1fr),
-      section-header("4 Shields", colspan: 2),
+      section-header("4 Shields"),
       table.cell(colspan: 2, align: left)[The front (FWD) and rear (AFT) shields, where the bar length equals the shield strength. As the shields weaken, the risk of weapons fire penetrating the shield increases. Any penetration will result in energy drain, along with the risk of equipment damage and the destruction of cargo.]
     )
 
     #table(
       columns: (1fr, 1fr),
-      section-header("5 Fuel", colspan: 2),
+      section-header("5 Fuel"),
       table.cell(colspan: 2, align: left)[A gauge displaying how much witchspace fuel is available. If a destination has been selected for a hyperspace jump, a marker line will show how much you need to activate the drive.]
     )
 
     #table(
       columns: (1fr, 1fr),
-      section-header("6 Cabin Temperature", colspan: 2),
+      section-header("6 Cabin Temperature"),
       table.cell(colspan: 2, align: left)[This gauge shows the ship's life support temperature. Exposure to excessive amounts of heat will overload the life support resulting in the crew's death.]
     )
 
     #table(
       columns: (1fr, 1fr),
-      section-header("7 Laser Temperature", colspan: 2),
+      section-header("7 Laser Temperature"),
       table.cell(colspan: 2, align: left)[Displays the heat level of the active laser. Continuous fire raises the laser temperature. An overheated laser will shut down, requiring a cool-down period before it will fire again.]
     )
 
     #table(
       columns: (1fr, 1fr),
-      section-header("8 Altitude", colspan: 2),
+      section-header("8 Altitude"),
       table.cell(colspan: 2, align: left)[Shows the proximity of a nearby planet or sun. Exposure to excessive atmospheric and gravitational pressures of such bodies will destroy the ship.]
     )
   ],
@@ -120,7 +83,7 @@
       stack(spacing: 0.5em)[
         #table(
           columns: (auto, 1fr),
-          section-header("9 Missiles", colspan: 2),
+          section-header("9 Missiles"),
           table.cell(colspan: 2, align: left)[These icons show what types of, and how many, missiles or other pylon-mounted devices you are carrying, and which one is active (yellow border). When a weapon has been locked on to the target, its icon turns red.],
           [#box(image("./assets/Pictures/1000000000000022000000281FCBE9BB.png", height: 0.4cm, width: 0.33cm))], [Empty pylon],
           [#box(image("./assets/Pictures/100000000000002200000028D4D07A4C.png", height: 0.4cm, width: 0.319cm))], [Active standard missile ],
@@ -135,19 +98,19 @@
 
         #table(
           columns: (1fr, 1fr),
-          section-header("10 Fuel Scoop", colspan: 2),
+          section-header("10 Fuel Scoop"),
           table.cell(colspan: 2, align: left)[The Fuel Scoop icon will be added to the HUD when one is fitted to the ship. When the fuel scoop is active, the icon strobes. If the tail of the icon becomes red, then your cargo bay is full and any new object scooped will be destroyed.]
         )
 
         #table(
           columns: (1fr, 1fr),
-          section-header("11 Station Aegis", colspan: 2),
+          section-header("11 Station Aegis"),
           table.cell(colspan: 2, align: left)[The Station Aegis is the area of space around a GCW station where its Vipers will provide protection to your ship should you come under attack.]
         )
 
         #table(
           columns: (1fr, 1fr),
-          section-header("12 Primed Equipment", colspan: 2),
+          section-header("12 Primed Equipment"),
           table.cell(colspan: 2, align: left)[Displays currently primed OXP equipment, which can be activated with the “b” and “n” keys. See page 6 “MFDs and Primable Equipment” for more information.]
         )
       ],
@@ -156,19 +119,19 @@
       stack(spacing: 0.5em)[
         #table(
           columns: (1fr, 1fr),
-          section-header("13 Threat Indicator", colspan: 2),
+          section-header("13 Threat Indicator"),
           table.cell(colspan: 2, align: left)[This is an indicator showing the current level of risk to your ship. When green, there are no other ships within scanner range. Yellow indicates that there are objects within scanner range. When the indicator turns red, other ships have targeted you.]
         )
 
         #table(
           columns: (1fr, 1fr),
-          section-header("14 Date and Time", colspan: 2),
+          section-header("14 Date and Time"),
           table.cell(colspan: 2, align: left)[The current date and time, set to Galactic Cooperative of Worlds Mean Time.]
         )
 
         #table(
           columns: (1fr, 1fr),
-          section-header("15 Scanner Zoom", colspan: 2),
+          section-header("15 Scanner Zoom"),
           table.cell(colspan: 2, align: left)[The zoom ratio displays the current magnification setting of the IFF scanner.]
         )
 

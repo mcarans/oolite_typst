@@ -3,3 +3,5 @@
 #include "OoliteRSPage3.typ"
 #include "OoliteRSPage4.typ"
 #include "OoliteRSPage5.typ"
+#include "OoliteRSPage6.typ"
+#include "OoliteRSPage7.typ"

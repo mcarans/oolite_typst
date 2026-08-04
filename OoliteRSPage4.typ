@@ -1,59 +1,10 @@
-// Initialize the dynamic header state with a default value
-#let header-text = state("header-text", "Settings and Flight Controls")
+#import "common.typ": *
 
-#set page(
-  paper: "a4",
-  flipped: true,
-  margin: (x: 0.5cm, top: 0.9cm, bottom: 0.5cm),
-  numbering: none,
-  header: context {
-    text(size: 9.4pt, fill: rgb("444444"))[
-      #grid(
-        columns: (1fr, 1fr, 1fr),
-        align(left)[], // Empty left column to balance the right one
-        align(center)[*Oolite Reference Sheet*], // Perfectly centered text
-        align(right)[#text(fill: rgb("666666"), weight: "bold")[#header-text.get()]]
-      )
-    ]
-    v(-0.5em)
-    line(length: 100%, stroke: 0.4pt + rgb("cccccc"))
-    v(-0.3em)
-  }
-)
+#header-text.update("Settings and Flight Controls")
 
-#set text(
-  font: ("Libertinus Serif"),  // Use default typst font
-  size: 9.3pt,
-  stretch: 90%,
-  hyphenate: false
-)
+#show: setup-page
 
-#set par(leading: 0.38em, justify: false)
-
-// Styled header helper for our main reference sections - centered text
-#let section-header(title, colspan: 2) = table.cell(colspan: colspan, fill: rgb("eeeeee"), align: center)[*#title*]
-
-// Styled helper for subheadings (Propulsion, Offensive, External View, etc.)
-#let sub-header(title) = table.cell(
-  fill: rgb("f4f4f4"),
-  align: center,
-  inset: 2.8pt
-)[
-  #text(size: 8.5pt, weight: "semibold", fill: rgb("333333"))[#title]
-]
-
-// Spacer cell helper to create clean white space inside tables
-#let table-gap(height: 0.4em) = table.cell(stroke: none, inset: 0pt)[#v(height)]
-
-// Configure cell properties globally
-#show table: set table(
-  inset: 2.8pt,
-  stroke: (x, y) => if y == 0 { none } else { (bottom: 0.3pt + rgb("dddddd")) },
-  align: (left, left) // Default columns to left-aligned for content block text
-)
-
-// Clean layout wrapper: automatically ensures tables expand to fill their grid cells entirely
-#show table: it => block(width: 100%, it)
+#show: apply-table-styles
 
 // ==========================================
 // PAGE 4: SETTINGS AND FLIGHT CONTROLS
@@ -96,8 +47,8 @@
     #table(
       columns: (1fr),
       section-header("Joystick Flight Controls", colspan: 1),
-      table-gap(),
-      sub-header("Propulsion"),
+      table-gap(colspan: 1),
+      sub-header("Propulsion", colspan: 1),
       [*Roll* \ Direction axis for roll anti/clockwise.],
       [*Pitch* \ Direction axis for dive/climb.],
       [*Yaw* \ Direction axis for turn left/right.],
@@ -111,7 +62,7 @@
 
     #table(
       columns: (1fr),
-      sub-header("Navigation"),
+      sub-header("Navigation", colspan: 1),
       [*Next / Previous compass target* \ Buttons to select the next/previous space compass target.],
       [*Zoom scanner* \ Button to zoom out the scanner.],
       [*Unzoom scanner* \ Button to reset the scanner zoom factor.],
@@ -132,8 +83,8 @@
     #table(
       columns: (1fr),
       section-header("Joystick Flight Controls", colspan: 1),
-      table-gap(),
-      sub-header("Offensive"),
+      table-gap(colspan: 1),
+      sub-header("Offensive", colspan: 1),
       [*Weapons toggle* \ Button to toggle weapons online/offline.],
       [*Fire laser* \ Button to fire the energy weapon.],
       [*Fire missile/bomb* \ Button to fire currently active pylon-mounted weapon or equipment.],
@@ -146,7 +97,7 @@
 
     #table(
       columns: (1fr),
-      sub-header("Defensive"),
+      sub-header("Defensive", colspan: 1),
       [*ECM* \ Button to activate the Electronic Counter-Measure Systems.],
       [*Dump cargo* \ Button to dump one cargo canister.],
       [*Rotate cargo* \ Button to rotate through the manifest.],
@@ -155,7 +106,7 @@
 
     #table(
       columns: (1fr),
-      sub-header("Special Equipment"),
+      sub-header("Special Equipment", colspan: 1),
       [*Select next / previous MFD* \ Buttons to select the next/previous MFD.],
       [*Cycle next / previous MFD* \ Buttons to cycle to the next/previous MFD display.],
       [*Prime next / previous equipment* \ Buttons to cycle through selectable equipment.],
@@ -171,15 +122,15 @@
     #table(
       columns: (1fr),
       section-header("Joystick Flight Controls", colspan: 1),
-      table-gap(),
-      sub-header("Fast-Activate Equipment"),
+      table-gap(colspan: 1),
+      sub-header("Fast-Activate Equipment", colspan: 1),
       [*Fast-activate first equipment item* \ Button to fast-activate the first equipment item.],
       [*Fast-activate second equipment item* \ Button to fast-activate the second equipment item.]
     )
 
     #table(
       columns: (1fr),
-      sub-header("Miscellaneous"),
+      sub-header("Miscellaneous", colspan: 1),
       [*Take Snapshot* \ Button to capture a screen shot.],
       [*Pause* \ Button to pause the game.],
       [*Toggle HUD* \ Button to toggle the HUD on/off.],
@@ -204,7 +155,7 @@
 
     #table(
       columns: (1fr),
-      sub-header("External View"),
+      sub-header("External View", colspan: 1),
       table.cell(inset: (top: 8pt, bottom: 4pt, x: 2.8pt))[
         #text(size: 7.5pt)[
           With Caps Lock active & Left Mouse Button down:

@@ -1,60 +1,10 @@
-// Initialize the dynamic header state with a default value
-#let header-text = state("header-text", "Equipment and Trade")
+#import "common.typ": *
 
-#set page(
-  paper: "a4",
-  flipped: true,
-  margin: (x: 0.5cm, top: 0.9cm, bottom: 0.5cm),
-  numbering: none,
-  header: context {
-    text(size: 9.4pt, fill: rgb("444444"))[
-      #grid(
-        columns: (1fr, 1fr, 1fr),
-        align(left)[], // Empty left column to balance the right one
-        align(center)[*Oolite Reference Sheet*], // Perfectly centered text
-        align(right)[#text(fill: rgb("666666"), weight: "bold")[#header-text.get()]]
-      )
-    ]
-    v(-0.5em)
-    line(length: 100%, stroke: 0.4pt + rgb("cccccc"))
-    v(-0.3em)
-  }
-)
+#header-text.update("Equipment and Trade")
 
-#set text(
-  font: ("Libertinus Serif"),  // Use default typst font
-  size: 9.3pt,
-  stretch: 90%,
-  hyphenate: false
-)
+#show: setup-page.with(header-size: 9.7pt, body-size: 9.6pt)
 
-#set par(leading: 0.38em, justify: false)
-
-// Styled header helper for our reference sections - centered text
-#let section-header(title, colspan: 2) = table.cell(colspan: colspan, fill: rgb("eeeeee"), align: center)[*#title*]
-
-// Styled helper for subheadings (Services, Crimes, Bounty Hunting, etc.)
-#let sub-header(title, colspan: 2) = table.cell(
-  colspan: colspan,
-  fill: rgb("f4f4f4"),
-  align: center,
-  inset: 2.8pt
-)[
-  #text(size: 8.5pt, weight: "semibold", fill: rgb("333333"))[#title]
-]
-
-// Spacer cell helper to create clean white space inside tables
-#let table-gap(colspan: 2, height: 0.4em) = table.cell(colspan: colspan, stroke: none, inset: 0pt)[#v(height)]
-
-// Configure cell properties globally
-#show table: set table(
-  inset: 2.8pt,
-  stroke: (x, y) => if y == 0 { none } else { (bottom: 0.3pt + rgb("dddddd")) },
-  align: (left, left) // Default columns to left-aligned for content block text
-)
-
-// Clean layout wrapper: automatically ensures tables expand to fill their grid cells entirely
-#show table: it => block(width: 100%, it)
+#show: apply-table-styles
 
 // ==========================================
 // PAGE 3: EQUIPMENT AND TRADE
@@ -150,7 +100,7 @@
     #table(
       columns: (1fr, auto),
       align: (left, right),
-      section-header("Combat Rank", colspan: 2),
+      section-header("Combat Rank"),
       [*Rank*], [*Kills*],
       [Harmless], [0],
       [Mostly Harmless], [8],
@@ -218,7 +168,7 @@
     #table(
       columns: (auto, 1fr),
       align: (left, left),
-      section-header("Legal Status", colspan: 2),
+      section-header("Legal Status"),
       [*Status*], [*The commander can expect*],
       [Clean \ ▼], [Free travel and access to GCW Stations. Full protection by GalCop Vipers.],
       [Offender \ ▼], [Free travel and access to GCW Stations. Limited protection by GalCop Vipers, but could also be targeted at law enforcer's discretion. Small bounty on the commander.],
